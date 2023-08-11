@@ -2,25 +2,77 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Post {{ name }}</title>
-
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        form {
+            margin-top: 20px;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: vertical;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #555;
+        }
+        .post {
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+    </style>
 </head>
 <body>
-<p> You are now posting as {{ name }}</p>
-<form action="{% url 'post' name=name %}" method="post">
-    {% csrf_token %}
-    <textarea id="pub-content" name="pub" placeholder="Type your post"></textarea>
-    <button type="submit">Post</button>
-    {% for datum in data %}
-        {% if datum.user == user %}
-            <p>
-                {{ name }} : {{ datum.content }}
-            </p>
-
-        {% endif %}
-    {% endfor %}
-
-</form>
-
+    <header>
+        <h1>Post {{ name }}</h1>
+    </header>
+    <div class="container">
+        <p>You are now posting as {{ name }}</p>
+        <form action="{% url 'post' name=name %}" method="post">
+            {% csrf_token %}
+            <textarea id="pub-content" name="pub" placeholder="Type your post"></textarea>
+            <button type="submit">Post</button>
+        </form>
+        {% for datum in data %}
+            {% if datum.user == user %}
+                <div class="post">
+                    <p><strong>{{ name }}</strong>: {{ datum.content }}</p>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
 </body>
 </html>
