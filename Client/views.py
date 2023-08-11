@@ -53,9 +53,13 @@ def post(request,name):
             user=user
         )
         posts.save()
-        context = {'name': name, 'message': 'post success'}
+        data = Post.objects.all()
+        context = {'name': name, 'message': 'post success','data':data , 'user':user}
         return render(request, 'mainpage/post.html', context)
-    return render(request,'mainpage/post.html',{'name':name})
+    user = User.objects.get(name=name)
+    data = Post.objects.all()
+    context = {'name': name, 'message': 'post success', 'data': data , 'user':user}
+    return render(request,'mainpage/post.html',context)
 # Create your views here.
 def publier(request,name):
     context  = {'name1':name}
