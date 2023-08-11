@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Post {{ name }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        /* Style for the chat-like display */
+        #chat-container {
+            border: 1px solid #ccc;
+            padding: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        .message {
+            background-color: #f4f4f4;
+            padding: 8px;
+            border-radius: 10px;
+            margin-bottom: 8px;
+        }
+        .message:last-child {
+            margin-bottom: 0;
+        }
+    </style>
+    <script>
+        function displayContent() {
+            var pubContent = document.getElementById('pub-content').value;
+            var chatContainer = document.getElementById('chat-container');
+            var newMessage = document.createElement('div');
+            newMessage.className = 'message';
+            newMessage.textContent = pubContent;
+            chatContainer.appendChild(newMessage);
+            document.getElementById('pub-content').value = '';  // Clear the textarea
+
+            // Store the chat messages in Local Storage
+            var messages = JSON.parse(localStorage.getItem('chatMessages')) || [];
+            messages.push(pubContent);
+            localStorage.setItem('chatMessages', JSON.stringify(messages));
+        }
+
+        window.onload = function() {
+            // Retrieve and display chat messages from Local Storage
+            var messages = JSON.parse(localStorage.getItem('chatMessages')) || [];
+            var chatContainer = document.getElementById('chat-container');
+            messages.forEach(function(message) {
+                var newMessage = document.createElement('div');
+                newMessage.className = 'message';
+                newMessage.textContent = message;
+                chatContainer.appendChild(newMessage);
+            });
+        };
+    </script>
+</head>
+<body>
+<p> You are now posting as {{ name }}</p>
+<form action="{% url 'post' name=name %}" method="post">
+    {% csrf_token %}
+    <textarea id="pub-content" name="pub" placeholder="Type your post"></textarea>
+    <button type="button" onclick="displayContent()">Preview</button>
+    <button type="submit">Post</button>
+    {% for datum in data %}
+    	{{ datum.content }}
+    {% endfor %}
+
+</form>
+<div id="chat-container"></div>
+</body>
+</html>

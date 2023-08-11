@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+</head>
+<style>
+.message{
+   color: green;
+}
+</style>
+<body>
+<form action="{% url 'register' %}" method="post">
+    {% csrf_token %}
+    <input type="text"name="name" placeholder="name"required> <br>
+    <input type="email"name="email" placeholder="Email"required><br>
+    <input type="number"name="age" placeholder="age"required><br>
+    <button type="submit">Inscrir</button>
+
+</form>
+<div class="message"><p>
+    {{ message }}
+</p></div>
+
+</body>
+</html>
