@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-</head>
-<body>
+{% extends 'parts/base.html' %}
+{% block body %}
+    <body>
 <form  action="{% url 'login' %}" method="post">
     {% csrf_token %}
         <input type="text"name="name" placeholder="username"required> <br>
@@ -15,4 +11,5 @@
     {{ message }}
 </h1>
 </body>
-</html>
+{% endblock %}
+
